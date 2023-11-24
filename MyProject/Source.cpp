@@ -5,6 +5,11 @@
 using namespace std;
 
 class Util {
+public:
+	static void copyString(char* dest, const char* source, size_t size) {
+		strncpy(dest, source, size);
+		dest[size - 1] = '\0';
+	}
 
 };
 
@@ -15,6 +20,16 @@ private:
 	char time[6];
 
 public:
+	Event() {
+		Util::copyString(name, "", sizeof(name));
+		Util::copyString(date, "", sizeof(date));
+		Util::copyString(time, "", sizeof(time));
+	}
+	Event(const char* name, const char* date, const char* time) {
+		Util::copyString(this->name, name, sizeof(this->name));
+		Util::copyString(this->date, date, sizeof(this->date));
+		Util::copyString(this->time, time, sizeof(this->time));
+	}
 };
 
 class Location {
@@ -26,17 +41,48 @@ private:
 	int seatsPerRow[10];
 
 public:
+	Location() {
+		Util::copyString(name, "", sizeof(name));
+		maxSeats = numRows = numZones = 0;
+		for (int i = 0; i < sizeof(seatsPerRow) / sizeof(seatsPerRow[0]); i++) {
+			seatsPerRow[i] = 0;
+		}
+	}
+
+	Location(const char* name, int maxSeats, int numRows, int numZones, const int* seatsPerRow) {
+		Util::copyString(this->name, name, sizeof(this->name));
+		this->maxSeats = maxSeats;
+		this->numRows = numRows;
+		this->numZones = numZones;
+		for (int i = 0; i < this->numRows; i++) {
+			this->seatsPerRow[i] = seatsPerRow[i];
+		}
+	}
 };
 
 
 
 class Ticket {
 private:
-	string ticketType;
+	char ticketType[20];
 	int uniqueID;
 public:
+	Ticket() : uniqueID(generateUniqueID()) {
+		Util::copyString(ticketType, "", sizeof(ticketType));
+	}
+
+	Ticket(const char* ticketType) : uniqueID(generateUniqueID()) {
+		Util::copyString(this->ticketType, ticketType, sizeof(this->ticketType));
+	}
+
+	const char* getTicketTyoe() const { return ticketType; }
+	
+private:
+	int generateUniqueID() const {
+		return rand();
+	}
 };
 
 int main() {
-	//Event footballEvent("Football Match", "01.12.2023", "18:00");
+	Event footballEvent("Football Match", "01.12.2023", "18:00");
 }
