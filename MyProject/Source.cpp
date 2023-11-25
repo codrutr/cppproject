@@ -30,6 +30,14 @@ public:
 		Util::copyString(this->date, date, sizeof(this->date));
 		Util::copyString(this->time, time, sizeof(this->time));
 	}
+
+	const char* getName() const { return name; }
+	const char* getDate() const { return date; }
+	const char* getTime() const { return time; }
+
+	void setName(const char* name) { Util::copyString(this->name, name, sizeof(this->name)); }
+	void setDate(const char* date) { Util::copyString(this->date, date, sizeof(this->date)); }
+	void setTime(const char* time) { Util::copyString(this->time, time, sizeof(this->time)); }
 };
 
 class Location {
@@ -58,6 +66,23 @@ public:
 			this->seatsPerRow[i] = seatsPerRow[i];
 		}
 	}
+
+	const char* getName() const { return name; }
+	int getMaxSeats() const { return maxSeats; }
+	int getNumRows() const { return numRows; }
+	int getNumZones() const { return numZones; }
+	const int* getSeatsPerRow() const { return seatsPerRow; }
+
+	void setName(const char* name) { Util::copyString(this->name, name, sizeof(this->name)); }
+	void setMaxSeats(int maxSeats) { this->maxSeats = maxSeats; }
+	void setNumRows(int numRows) { this->numRows = numRows; }
+	void setNumZones(int numZones) { this->numZones = numZones; }
+	void setSeatsPerRow(const int* seatsPerRow) {
+		for (int i = 0; i < this->numRows; i++) {
+			this->seatsPerRow[i] = seatsPerRow[i];
+		}
+	}
+
 };
 
 
@@ -76,7 +101,9 @@ public:
 	}
 
 	const char* getTicketTyoe() const { return ticketType; }
-	
+	int getUniqueID() const { return uniqueID; }
+	void setTicketType(const char* ticketType) { Util::copyString(this->ticketType, ticketType, sizeof(this->ticketType)); }
+
 private:
 	int generateUniqueID() const {
 		return rand();
