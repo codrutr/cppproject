@@ -38,6 +38,12 @@ public:
 	void setName(const char* name) { Util::copyString(this->name, name, sizeof(this->name)); }
 	void setDate(const char* date) { Util::copyString(this->date, date, sizeof(this->date)); }
 	void setTime(const char* time) { Util::copyString(this->time, time, sizeof(this->time)); }
+	
+	void displayEvent() const {
+		cout << "Event: " << name << endl;
+		cout << "Date: " << date << endl;
+		cout << "Time: " << time << endl;
+	}
 };
 
 class Location {
@@ -82,7 +88,17 @@ public:
 			this->seatsPerRow[i] = seatsPerRow[i];
 		}
 	}
-
+	void displayLocation() const {
+		cout << "Location: " << name << endl;
+		cout << "Maximum seats: " << maxSeats << endl;
+		cout << "Number of rows: " << numRows << endl;
+		cout << "Number of zones: " << numZones << endl;
+		cout << "Seats per row: ";
+		for (int i = 0; i < numRows; i++) {
+			cout << seatsPerRow[i] << " ";
+		}
+		cout << endl;
+	}
 };
 
 
@@ -104,6 +120,11 @@ public:
 	int getUniqueID() const { return uniqueID; }
 	void setTicketType(const char* ticketType) { Util::copyString(this->ticketType, ticketType, sizeof(this->ticketType)); }
 
+	void displayTicket() const {
+		cout << "Ticket type: " << ticketType << endl;
+		cout << "Unique id: " << uniqueID << endl;
+	}
+
 private:
 	int generateUniqueID() const {
 		return rand();
@@ -111,5 +132,14 @@ private:
 };
 
 int main() {
+
 	Event footballEvent("Football Match", "01.12.2023", "18:00");
+	
+	int seatsPerRow[] = { 25, 30, 25 };
+	Location stadium("Stadium", 5000, 3, 3, seatsPerRow);
+
+	footballEvent.displayEvent();
+	stadium.displayLocation();
+
+	return 0;
 }
