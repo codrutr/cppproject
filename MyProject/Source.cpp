@@ -1,6 +1,10 @@
 #include <iostream>
 #include <string>
 #include <string.h>
+#include <fstream>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -11,6 +15,11 @@ public:
 		dest[size - 1] = '\0';
 	}
 
+	static char* copyDynamicString(const char* source) {
+		char* copy = new char[strlen(source) + 1];
+		copyString(copy, source, strlen(source) + 1);
+		return copy;
+	}
 };
 
 class Event {
