@@ -140,6 +140,48 @@ private:
 	}
 };
 
+class TicketManager {
+public:
+	void generateTickets(const Location& location, const Event& event, const char* ticketType, int numTickets) {
+		for (int i = 0; i < numTickets; ++i) {
+			Ticket ticket(ticketType);
+			tickets.push_back(ticket);
+		}
+
+		cout << numTickets << " tickets of type " << ticketType << " generated successfully.\n";
+	}
+
+	void validateTicket() {
+		int uniqueID;
+		cout << "Enter the unique ID of the ticket to validate: ";
+		cin >> uniqueID;
+
+		for (const auto& ticket : tickets) {
+			if (ticket.getUniqueID() == uniqueID) {
+				cout << "Ticket is valid.\n";
+				return;
+			}
+		}
+
+		cout << "Invalid ticket ID.\n";
+	}
+
+	void saveTicketsToFile(const char* fileName) const {
+		ofstream outFile(fileName, ios::binary | ios::out);
+		if (!outFile.is_open()) {
+			cerr << "Error opening file for writing.\n";
+			return;
+		}
+
+		for (const auto& ticket : tickets) {
+			outFile.write(reinterpret_cast<const char*>(&ticket), sizeof(Ticket));
+		}
+
+		cout << "Tickets saved to file: " << fileName << "\n";
+		outFile.close();
+	}
+};
+
 int main() {
 
 	Event footballEvent("Football Match", "01.12.2023", "18:00");
