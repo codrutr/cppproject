@@ -180,6 +180,24 @@ public:
 		cout << "Tickets saved to file: " << fileName << "\n";
 		outFile.close();
 	}
+	void loadTicketsFromFile(const char* fileName) {
+		ifstream inFile(fileName, ios::binary | ios::in);
+		if (!inFile.is_open()) {
+			cerr << "Error opening file for reading.\n";
+			return;
+		}
+
+		Ticket ticket;
+		while (inFile.read(reinterpret_cast<char*>(&ticket), sizeof(Ticket))) {
+			tickets.push_back(ticket);
+		}
+
+		cout << "Tickets loaded from file: " << fileName << "\n";
+		inFile.close();
+	}
+
+private:
+	vector<Ticket> tickets;
 };
 
 int main() {
