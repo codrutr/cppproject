@@ -201,14 +201,74 @@ private:
 };
 
 int main() {
+	srand(static_cast<unsigned int>(time(0)));
 
 	Event footballEvent("Football Match", "01.12.2023", "18:00");
-	
-	int seatsPerRow[] = { 25, 30, 25 };
+
+	vector<int> seatsPerRow = { 25, 30, 25 };
 	Location stadium("Stadium", 5000, 3, 3, seatsPerRow);
 
-	footballEvent.displayEvent();
-	stadium.displayLocation();
+	TicketManager ticketManager;
+
+	int choice;
+	do {
+		cout << "Options:\n";
+		cout << "1. Generate Tickets\n";
+		cout << "2. Validate Ticket\n";
+		cout << "3. Save Tickets to File\n";
+		cout << "4. Load Tickets from File\n";
+		cout << "5. Display Event and Location\n";
+		cout << "6. Exit\n";
+
+		cout << "Enter your choice: ";
+		cin >> choice;
+
+		switch (choice) {
+		case 1: {
+			int numTickets;
+			cout << "Enter the number of tickets to generate: ";
+			cin >> numTickets;
+
+			char ticketType[20];
+			cout << "Enter the ticket type: ";
+			cin >> ticketType;
+
+			ticketManager.generateTickets(stadium, footballEvent, ticketType, numTickets);
+			break;
+		}
+		case 2: {
+			ticketManager.validateTicket();
+			break;
+		}
+		case 3: {
+			char fileName[100];
+			cout << "Enter the file name to save tickets: ";
+			cin >> fileName;
+
+			ticketManager.saveTicketsToFile(fileName);
+			break;
+		}
+		case 4: {
+			char fileName[100];
+			cout << "Enter the file name to load tickets: ";
+			cin >> fileName;
+
+			ticketManager.loadTicketsFromFile(fileName);
+			break;
+		}
+		case 5: {
+			footballEvent.displayEvent();
+			stadium.displayLocation();
+			break;
+		}
+		case 6:
+			cout << "Exiting program.\n";
+			break;
+		default:
+			cout << "Invalid choice. Please try again.\n";
+		}
+
+	} while (choice != 6);
 
 	return 0;
 }
